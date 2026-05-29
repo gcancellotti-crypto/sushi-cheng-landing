@@ -400,11 +400,11 @@ body {
 }
 
 .logo-img {
-  width: 320px;
-  max-width: 88%;
+  width: 448px;
+  max-width: 92%;
   height: auto;
   display: block;
-  margin: 0 auto 24px;
+  margin: 0 auto 12px;
   transition: filter 0.3s;
 }
 
@@ -893,36 +893,6 @@ textarea { resize: vertical; min-height: 84px; }
   margin-bottom: 16px;
 }
 
-/* ── Delivery toggle ───────────────────────────────────────────── */
-.delivery-toggle {
-  display: flex;
-  background: var(--bg-card2);
-  border-radius: 14px;
-  padding: 4px;
-  gap: 4px;
-  margin-bottom: 18px;
-}
-
-.toggle-opt {
-  flex: 1;
-  padding: 13px 8px;
-  border: none;
-  border-radius: 11px;
-  background: transparent;
-  color: var(--muted);
-  font-size: 15px;
-  font-weight: 600;
-  font-family: var(--font-sub);
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
-
-.toggle-opt.active {
-  background: var(--accent);
-  color: var(--on-accent);
-}
 
 /* ── Animations ────────────────────────────────────────────────── */
 .fade-in {
@@ -976,39 +946,36 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
 /* ── Promo strip (home) ────────────────────────────────────────── */
 .promo-strip {
   align-self: stretch;
-  margin: 20px 0 0;
-  padding: 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  text-align: left;
+  margin: 28px 0 0;
+  text-align: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: opacity 0.15s;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  gap: 7px;
 }
-.promo-strip:active { opacity: 0.72; }
+.promo-strip:active { opacity: 0.6; }
 .promo-strip-label {
   font-family: var(--font-sub);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 2.5px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
 }
 .promo-strip-title {
   font-family: var(--font-title);
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 .promo-strip-sub {
   font-size: 13px;
   color: var(--muted);
-  line-height: 1.5;
-  margin-top: 2px;
+  line-height: 1.55;
+  max-width: 260px;
 }
 .promo-strip-cta {
   font-family: var(--font-sub);
@@ -1016,7 +983,9 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
   font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--text);
-  margin-top: 6px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-top: 1px;
 }
 
 /* ── Promo note (menu fisso 8 piatti) ─────────────────────────── */
@@ -1094,11 +1063,11 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
 
     <div class="gallery" id="heroGallery">
       <div class="gallery-track">
-        <img src="assets/images/gallery/1.png"          alt="Sushi Cheng" class="gallery-img">
-        <img src="assets/images/gallery/3.png"          alt="Sushi Cheng" class="gallery-img">
-        <img src="assets/images/gallery/1-45.png"       alt="Sushi Cheng" class="gallery-img">
-        <img src="assets/images/gallery/1 copia.png"    alt="Sushi Cheng" class="gallery-img">
-        <img src="assets/images/gallery/1 copia 2.png"  alt="Sushi Cheng" class="gallery-img">
+        <img src="assets/images/gallery/1.jpg"          alt="Sushi Cheng" class="gallery-img" loading="lazy">
+        <img src="assets/images/gallery/3.jpg"          alt="Sushi Cheng" class="gallery-img" loading="lazy">
+        <img src="assets/images/gallery/1-45.jpg"       alt="Sushi Cheng" class="gallery-img" loading="lazy">
+        <img src="assets/images/gallery/1 copia.jpg"    alt="Sushi Cheng" class="gallery-img" loading="lazy">
+        <img src="assets/images/gallery/1 copia 2.jpg"  alt="Sushi Cheng" class="gallery-img" loading="lazy">
       </div>
     </div>
 
@@ -1320,11 +1289,6 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
     <div class="checkout-sep"></div>
     <form id="formAsporto" novalidate>
 
-      <div class="delivery-toggle" id="deliveryToggle">
-        <button type="button" class="toggle-opt active" data-mode="ritiro">🏪 Ritiro</button>
-        <button type="button" class="toggle-opt"        data-mode="consegna">🛵 Consegna</button>
-      </div>
-
       <div class="form-group">
         <label for="a-nome">Nome *</label>
         <input type="text" id="a-nome" placeholder="Mario" autocomplete="given-name" inputmode="text">
@@ -1333,12 +1297,8 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
         <label for="a-telefono">Telefono *</label>
         <input type="tel" id="a-telefono" placeholder="+39 333 1234567" autocomplete="tel" inputmode="tel">
       </div>
-      <div class="form-group" id="addressGroup" style="display:none">
-        <label for="a-indirizzo">Indirizzo di consegna *</label>
-        <input type="text" id="a-indirizzo" placeholder="Via Roma 1, Perugia" autocomplete="street-address" inputmode="text">
-      </div>
       <div class="form-group">
-        <label for="a-orario" id="a-orario-label">Orario di ritiro *</label>
+        <label for="a-orario">Orario di ritiro *</label>
         <select id="a-orario">
           <option value="">Scegli orario</option>
           <option>12:00</option><option>12:30</option>
@@ -1744,22 +1704,6 @@ document.getElementById('formPrenota').addEventListener('submit', e => {
 });
 
 // ══════════════════════════════════════════════════════════════
-// DELIVERY TOGGLE
-// ══════════════════════════════════════════════════════════════
-let deliveryMode = 'ritiro';
-
-document.getElementById('deliveryToggle').addEventListener('click', e => {
-  const btn = e.target.closest('.toggle-opt');
-  if (!btn) return;
-  deliveryMode = btn.dataset.mode;
-  document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const isConsegna = deliveryMode === 'consegna';
-  document.getElementById('addressGroup').style.display  = isConsegna ? 'block' : 'none';
-  document.getElementById('a-orario-label').textContent  = isConsegna ? 'Orario di consegna *' : 'Orario di ritiro *';
-});
-
-// ══════════════════════════════════════════════════════════════
 // FORM: ORDINE ASPORTO
 // ══════════════════════════════════════════════════════════════
 document.getElementById('formAsporto').addEventListener('submit', e => {
@@ -1770,28 +1714,18 @@ document.getElementById('formAsporto').addEventListener('submit', e => {
     return;
   }
 
-  const nome      = document.getElementById('a-nome').value.trim();
-  const telefono  = document.getElementById('a-telefono').value.trim();
-  const orario    = document.getElementById('a-orario').value;
-  const indirizzo = deliveryMode === 'consegna'
-    ? document.getElementById('a-indirizzo').value.trim()
-    : null;
+  const nome     = document.getElementById('a-nome').value.trim();
+  const telefono = document.getElementById('a-telefono').value.trim();
+  const orario   = document.getElementById('a-orario').value;
 
   if (!nome || !telefono || !orario) {
     showToast('⚠️ Compila tutti i campi obbligatori');
-    return;
-  }
-  if (deliveryMode === 'consegna' && !indirizzo) {
-    showToast('⚠️ Inserisci l\'indirizzo di consegna');
     return;
   }
 
   const righe = Object.values(cart)
     .map(v => `• ${v.name} x${v.qty} — ${eur(v.price * v.qty)}`)
     .join('\n');
-
-  const label = deliveryMode === 'consegna' ? 'Consegna' : 'Ritiro';
-  const emoji = deliveryMode === 'consegna' ? '🛵' : '🥡';
 
   const promo = promoCalc();
   let totaleLabel = eur(promo.effective);
@@ -1804,15 +1738,14 @@ document.getElementById('formAsporto').addEventListener('submit', e => {
   }
 
   const msg = [
-    `${emoji} ORDINE ${label.toUpperCase()} — Sushi Cheng`,
+    '🥡 ORDINE ASPORTO — Sushi Cheng',
     `👤 Nome: ${nome}`,
     `📞 Telefono: ${telefono}`,
-    indirizzo ? `📍 Indirizzo: ${indirizzo}` : null,
-    `🕐 ${label}: ${orario}`,
+    `🕐 Ritiro: ${orario}`,
     '📋 Ordine:',
     righe,
     `💰 Totale: ${totaleLabel}`
-  ].filter(Boolean).join('\n');
+  ].join('\n');
 
   window.open(`https://wa.me/393806463740?text=${encodeURIComponent(msg)}`, '_blank');
 });
