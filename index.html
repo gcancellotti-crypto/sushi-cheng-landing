@@ -400,11 +400,11 @@ body {
 }
 
 .logo-img {
-  width: 860px;
-  max-width: 100%;
+  width: calc(100% + 32px);
+  max-width: none;
   height: auto;
   display: block;
-  margin: 0 auto 0;
+  margin: 0 -16px 0;
   transition: filter 0.3s;
 }
 
@@ -1048,7 +1048,7 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
 <!-- ═══ VIEW: HOME ═════════════════════════════════════════════ -->
 <div id="view-home" class="page-view">
   <div class="hero">
-    <img src="assets/images/logo cheng white png.png" alt="Sushi Cheng" class="logo-img">
+    <img src="assets/images/logo cheng white png.png?v=2" alt="Sushi Cheng" class="logo-img">
     <div class="hero-btns">
       <button type="button" class="btn-primary" data-goto="prenota">🍽 Prenota un tavolo</button>
       <button type="button" class="btn-outline" data-goto="asporto">🥡 Ordina asporto</button>
