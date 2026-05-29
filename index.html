@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Sushi Cheng Perugia — Prenota un tavolo o ordina asporto via WhatsApp">
+<title>Sushi Cheng — Perugia</title>
+<style>
+@import url("https://p.typekit.net/p.css?s=1&k=tzn8ozv&ht=tk&f=47347.47348.47340.47344.47486.47487.51753.51755.51756.51761.51763.51764.51765.51766.51767.51768.51769.51770.51771.51772&a=134335099&app=typekit&e=css");
+
+/* ── Reset & Variables ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:            #0a0a0a;
+  --bg-card:       #141414;
+  --bg-card2:      #1c1c1c;
+  --text:          #ffffff;
+  --muted:         #888888;
+  --accent:        #ffffff;
+  --accent-d:      #cccccc;
+  --on-accent:     #0a0a0a;
+  --border:        #2a2a2a;
+  --border-subtle: rgba(255,255,255,0.05);
+  --font:          "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-title:    "ivyora-display", Georgia, serif;
+  --font-sub:      "alkaline", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+:root.light {
+  --bg:            #f5f3ef;
+  --bg-card:       #ffffff;
+  --bg-card2:      #eae7e1;
+  --text:          #1a1a1a;
+  --muted:         #6b6b6b;
+  --accent:        #1a1a1a;
+  --accent-d:      #444444;
+  --on-accent:     #ffffff;
+  --border:        #d8d4cc;
+  --border-subtle: rgba(0,0,0,0.06);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.page {
+  width: 100%;
+}
+
+/* ── Hero ──────────────────────────────────────────────────────── */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px 52px;
+  text-align: center;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,255,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Gallery ───────────────────────────────────────────────────── */
+.gallery {
+  align-self: stretch;
+  margin: 32px -16px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.gallery::-webkit-scrollbar { display: none; }
+
+.gallery-track {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px 2px;
+  scroll-snap-type: x mandatory;
+  width: max-content;
+}
+
+.gallery-img {
+  width: 72vw;
+  max-width: 280px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 14px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Hero map ──────────────────────────────────────────────────── */
+.hero-map {
+  align-self: stretch;
+  margin: 32px -16px 0;
+  overflow: hidden;
+}
+
+.hero-map iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+  display: block;
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 0.3s;
+}
+
+:root.light .hero-map iframe { filter: none; }
+
+.hero-map-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+}
+
+.hero-map-address {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hero-map-link {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sub);
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 8px 0 8px 16px;
+  flex-shrink: 0;
+}
+
+/* ── Reviews strip ─────────────────────────────────────────────── */
+.hero-reviews {
+  align-self: stretch;
+  margin: 32px 0 0;
+}
+
+.reviews-heading {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.reviews-heading-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.reviews-score-num {
+  font-family: var(--font-title);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.reviews-score-stars {
+  font-size: 22px;
+  letter-spacing: 3px;
+}
+
+.reviews-heading-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.hero-reviews-label {
+  font-family: var(--font-sub);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 0 12px;
+  display: block;
+  margin-top: 20px;
+}
+
+.reviews-track {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  padding: 0 0 4px;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  cursor: grab;
+}
+
+.reviews-track::-webkit-scrollbar { display: none; }
+
+.review-card {
+  width: 72vw;
+  max-width: 280px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.review-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.review-meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+.review-name {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.review-date { font-size: 11px; color: var(--muted); }
+
+.review-stars { font-size: 13px; letter-spacing: 1px; }
+
+.review-text {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.review-scores {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-sub);
+  color: var(--text);
+  opacity: 0.6;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 8px;
+  margin-top: auto;
+}
+
+/* rating summary card */
+.review-card-summary {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.review-summary-score {
+  font-family: var(--font-title);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.review-summary-stars { font-size: 18px; letter-spacing: 2px; }
+
+.review-summary-count { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+.review-summary-source {
+  font-size: 11px;
+  font-family: var(--font-sub);
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.review-card:not(.review-card-summary) { cursor: pointer; }
+.review-card:not(.review-card-summary):active { opacity: 0.8; }
+
+/* ── Review sheet ──────────────────────────────────────────────── */
+.review-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.review-overlay.open { opacity: 1; pointer-events: all; }
+
+.review-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  background: var(--bg-card);
+  border-radius: 22px 22px 0 0;
+  z-index: 200;
+  transition: transform 0.36s cubic-bezier(0.32,0.72,0,1);
+  max-height: 80vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.review-sheet.open { transform: translateY(0); }
+
+.review-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 14px auto 0;
+}
+
+.review-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-sheet-body {
+  padding: 18px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-sheet-text {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.review-sheet-scores {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sub);
+  color: var(--text);
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.hero-decor {
+  position: absolute;
+  font-size: 100px;
+  opacity: 0.04;
+  right: -12px;
+  top: 16px;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.logo-img {
+  width: 320px;
+  max-width: 88%;
+  height: auto;
+  display: block;
+  margin: 0 auto 24px;
+  transition: filter 0.3s;
+}
+
+:root.light .logo-img {
+  filter: invert(1);
+}
+
+.tagline {
+  font-family: var(--font-sub);
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 36px;
+  line-height: 1.6;
+}
+
+.hero-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────── */
+.btn-primary, .btn-outline {
+  display: block;
+  width: 100%;
+  padding: 18px 16px;
+  border-radius: 14px;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  min-height: 56px;
+  border: none;
+  transition: transform 0.12s, opacity 0.12s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-outline  { background: transparent; color: var(--text); border: 2px solid var(--border); }
+
+.btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+.btn-outline:active  { transform: scale(0.97); border-color: var(--accent); }
+
+/* ── Sections ──────────────────────────────────────────────────── */
+section {
+  padding: 48px 16px;
+  width: 100%;
+}
+
+/* sections are independent panels, no shared border */
+
+.section-header {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.section-emoji {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.section-desc {
+  font-family: var(--font-sub);
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Page Views (router) ───────────────────────────────────────── */
+.page-view { display: none; min-height: 100svh; }
+.page-view.active { display: block; }
+
+#view-prenota.active,
+#view-asporto.active {
+  animation: pageIn 0.32s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.page-nav {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+  transition: background 0.3s;
+}
+
+.nav-back {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 15px;
+  font-family: var(--font-sub);
+  cursor: pointer;
+  padding: 6px 0;
+  opacity: 0.65;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s;
+}
+
+.nav-back:active { opacity: 1; }
+
+/* ── Forms ─────────────────────────────────────────────────────── */
+.form-group { margin-bottom: 14px; }
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 16px;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.4);
+  cursor: pointer;
+}
+
+:root.light input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0) opacity(0.5);
+}
+
+:root.light select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23999' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+select option { background: #1a1a1a; color: #fff; }
+
+textarea { resize: vertical; min-height: 84px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 20px 16px;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  border-radius: 14px;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 60px;
+  margin-top: 8px;
+  font-family: var(--font);
+  transition: transform 0.12s, opacity 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.submit-btn:active { transform: scale(0.97); opacity: 0.88; }
+
+/* ── Menu ──────────────────────────────────────────────────────── */
+.menu-category { margin-bottom: 32px; }
+
+.category-title {
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.menu-item:last-child { border-bottom: none; }
+
+.item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.item-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.item-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: 0 6px;
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.qty-btn.minus:active { background: var(--border); }
+.qty-btn.plus  { border-color: var(--accent); color: var(--accent); }
+.qty-btn.plus:active { background: var(--accent); color: var(--on-accent); }
+
+.qty-num {
+  font-size: 15px;
+  font-weight: 700;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* ── Cart Bar (sticky) ─────────────────────────────────────────── */
+.cart-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: var(--accent);
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cart-bar.hidden {
+  transform: translateY(110%);
+}
+
+.cart-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-badge {
+  background: var(--on-accent);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-bar-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--on-accent);
+}
+
+.cart-bar-total {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--on-accent);
+}
+
+/* ── Cart Sheet ────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cart-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  width: 100%;
+  background: var(--bg-card);
+  border-radius: 22px 22px 0 0;
+  z-index: 200;
+  transition: transform 0.36s cubic-bezier(0.32,0.72,0,1);
+  max-height: 92vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.cart-sheet.open {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 14px auto 0;
+}
+
+.sheet-header {
+  padding: 16px 16px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.sheet-header-left { display: flex; flex-direction: column; gap: 3px; }
+
+.sheet-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; }
+
+.cart-clear {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: var(--font);
+  font-weight: 300;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  display: none;
+}
+
+.cart-clear.visible { display: block; }
+
+.sheet-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-card2);
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cart-list { padding: 8px 16px 0; }
+
+.cart-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.cart-item-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+  min-width: 0;
+}
+
+.cart-item-sub {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.cart-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 28px 0;
+}
+
+.cart-total-row {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-total-label { font-size: 16px; color: var(--muted); font-weight: 600; }
+.cart-total-val   { font-size: 26px; font-weight: 900; }
+
+.checkout-form {
+  padding: 4px 16px 16px;
+}
+
+.checkout-sep {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 16px;
+}
+
+/* ── Delivery toggle ───────────────────────────────────────────── */
+.delivery-toggle {
+  display: flex;
+  background: var(--bg-card2);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+
+.toggle-opt {
+  flex: 1;
+  padding: 13px 8px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-sub);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.toggle-opt.active {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ── Animations ────────────────────────────────────────────────── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Toast ─────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: 18px;
+  left: 16px;
+  right: 16px;
+  transform: translateY(-120px);
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  z-index: 999;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  pointer-events: none;
+  text-align: center;
+}
+
+.toast.show {
+  transform: translateY(0);
+}
+
+/* ── Footer ────────────────────────────────────────────────────── */
+footer {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  line-height: 1.8;
+}
+
+footer a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── Cart spacer (when cart bar visible) ───────────────────────── */
+.cart-spacer {
+  height: 0;
+  transition: height 0.3s;
+}
+
+.cart-spacer.active { height: 72px; }
+
+/* ── Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── Theme Toggle ──────────────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 300;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-card2);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.3s, border-color 0.3s, transform 0.15s;
+  user-select: none;
+  line-height: 1;
+}
+
+.theme-toggle:active { transform: scale(0.90); }
+</style>
+</head>
+<body>
+
+<!-- ═══ VIEW: HOME ═════════════════════════════════════════════ -->
+<div id="view-home" class="page-view">
+  <div class="hero">
+    <img src="assets/images/logo cheng white png.png" alt="Sushi Cheng" class="logo-img">
+    <div class="hero-btns">
+      <button type="button" class="btn-primary" data-goto="prenota">🍽 Prenota un tavolo</button>
+      <button type="button" class="btn-outline" data-goto="asporto">🥡 Ordina asporto</button>
+    </div>
+
+    <div class="gallery" id="heroGallery">
+      <div class="gallery-track">
+        <img src="assets/images/gallery/1.png"          alt="Sushi Cheng" class="gallery-img">
+        <img src="assets/images/gallery/3.png"          alt="Sushi Cheng" class="gallery-img">
+        <img src="assets/images/gallery/1-45.png"       alt="Sushi Cheng" class="gallery-img">
+        <img src="assets/images/gallery/1 copia.png"    alt="Sushi Cheng" class="gallery-img">
+        <img src="assets/images/gallery/1 copia 2.png"  alt="Sushi Cheng" class="gallery-img">
+      </div>
+    </div>
+
+    <div class="hero-map">
+      <iframe
+        src="https://maps.google.com/maps?q=Via+Giuseppe+Minottini,+6,+06128+Perugia+PG&output=embed&hl=it&z=16"
+        loading="lazy"
+        allowfullscreen
+        title="Come raggiungere Sushi Cheng"></iframe>
+      <div class="hero-map-info">
+        <span class="hero-map-address">📍 Via Giuseppe Minottini, 6<br>06128 Perugia PG</span>
+        <a href="https://maps.google.com/?q=Via+Giuseppe+Minottini,+6,+06128+Perugia+PG"
+           target="_blank" rel="noopener" class="hero-map-link">Apri Maps →</a>
+      </div>
+    </div>
+
+    <div class="hero-reviews">
+      <div class="reviews-heading">
+        <div class="reviews-heading-score">
+          <span class="reviews-score-num">4.6</span>
+          <span class="reviews-score-stars">★★★★★</span>
+        </div>
+        <div class="reviews-heading-sub">1.700+ recensioni su Google</div>
+      </div>
+      <span class="hero-reviews-label">Cosa dicono i clienti</span>
+      <div class="reviews-track" id="reviewsTrack">
+
+        <!-- Marco Ago -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">M</div>
+            <div class="review-meta">
+              <span class="review-name">Marco Ago</span>
+              <span class="review-date">3 mesi fa · Local Guide</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Atmosfera elegante e ottima qualità. L'ambiente è curatissimo: pavimento e pareti in effetto marmo nero, sedute molto comode. Il menù della cena è vastissimo, le porzioni bilanciate permettono di assaggiare tanti piatti. La qualità delle materie prime si sente tutta e l'impiattamento è ricercato. Un'esperienza che consiglio vivamente!</p>
+          <div class="review-scores">Cibo: 5/5 · Servizio: 5/5 · Ambiente: 5/5</div>
+        </div>
+
+        <!-- Linda Ferranti -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">L</div>
+            <div class="review-meta">
+              <span class="review-name">Linda Ferranti</span>
+              <span class="review-date">2 mesi fa</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Andiamo in questo sushi da tantissimi anni e ogni volta è sempre una garanzia. Il sushi è sempre fresco, preparato con grande cura. Il servizio è davvero spettacolare: i ragazzi sono sempre gentili, sorridenti e disponibili. Noi ormai ci sentiamo a casa e lo consigliamo a chiunque voglia mangiare bene.</p>
+          <div class="review-scores">Cibo: 5/5 · Servizio: 5/5 · Ambiente: 5/5</div>
+        </div>
+
+        <!-- Nicola Ciampica -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">N</div>
+            <div class="review-meta">
+              <span class="review-name">Nicola Ciampica</span>
+              <span class="review-date">3 mesi fa</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Ottima serata, qualità del pesce e della carne ottima! Da tornarci!</p>
+          <div class="review-scores">Cibo: 5/5 · Servizio: 5/5 · Ambiente: 5/5</div>
+        </div>
+
+        <!-- Enrico C. -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">E</div>
+            <div class="review-meta">
+              <span class="review-name">Enrico C.</span>
+              <span class="review-date">3 mesi fa</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Cibo davvero di qualità, faccio fatica a cambiare posto quando ho voglia di sushi! Il sashimi è freschissimo, il servizio è veloce, tutti educati e gentili. Locale molto curato, bello e di effetto. Se venite da fuori Perugia e volete mangiare del sushi che spacca, ve lo consiglio.</p>
+          <div class="review-scores">Cibo: 5/5 · Servizio: 5/5 · Ambiente: 5/5</div>
+        </div>
+
+        <!-- Nicole G. -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">N</div>
+            <div class="review-meta">
+              <span class="review-name">Nicole G.</span>
+              <span class="review-date">8 mesi fa</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Una scoperta fantastica! L'ambiente è accogliente e curato nei dettagli. Il sushi è semplicemente delizioso: pesce freschissimo e abbinamenti creativi ma equilibrati. Consiglio il roll con salmone e mango: un'esplosione di sapori! Il personale è gentile, attento e mai invadente. Ci tornerò sicuramente.</p>
+          <div class="review-scores">Cibo: 5/5 · Servizio: 5/5 · Ambiente: 5/5</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div>🍣 Sushi Cheng — Perugia</div>
+    <div><a href="https://wa.me/393806463740">📞 Contattaci su WhatsApp</a></div>
+  </footer>
+</div>
+
+<!-- ═══ VIEW: PRENOTA UN TAVOLO ════════════════════════════════ -->
+<div id="view-prenota" class="page-view">
+  <nav class="page-nav">
+    <button type="button" class="nav-back" data-goto="home">← Indietro</button>
+  </nav>
+  <section>
+    <div class="section-header">
+      <span class="section-emoji">🍽</span>
+      <h2 class="section-title">Prenota un Tavolo</h2>
+      <p class="section-desc">Compila il form — si aprirà WhatsApp con il messaggio già pronto da inviare.</p>
+    </div>
+    <form id="formPrenota" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="p-nome">Nome *</label>
+          <input type="text" id="p-nome" placeholder="Mario" autocomplete="given-name" inputmode="text">
+        </div>
+        <div class="form-group">
+          <label for="p-cognome">Cognome *</label>
+          <input type="text" id="p-cognome" placeholder="Rossi" autocomplete="family-name" inputmode="text">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="p-telefono">Telefono *</label>
+        <input type="tel" id="p-telefono" placeholder="+39 333 1234567" autocomplete="tel" inputmode="tel">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="p-data">Data *</label>
+          <input type="date" id="p-data">
+        </div>
+        <div class="form-group">
+          <label for="p-orario">Orario *</label>
+          <select id="p-orario">
+            <option value="">Scegli</option>
+            <option>12:00</option><option>12:30</option>
+            <option>13:00</option><option>13:30</option>
+            <option>19:00</option><option>19:30</option>
+            <option>20:00</option><option>20:30</option>
+            <option>21:00</option><option>21:30</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="p-coperti">Numero coperti *</label>
+        <select id="p-coperti">
+          <option value="">Quante persone?</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option>
+          <option>5</option><option>6</option><option>7</option><option>8</option>
+          <option>9</option><option>10</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="p-note">Note speciali</label>
+        <textarea id="p-note" placeholder="Allergie, richieste particolari, occasione speciale…"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">💬 Invia su WhatsApp</button>
+    </form>
+  </section>
+</div>
+
+<!-- ═══ VIEW: ORDINA ASPORTO ═══════════════════════════════════ -->
+<div id="view-asporto" class="page-view">
+  <nav class="page-nav">
+    <button type="button" class="nav-back" data-goto="home">← Indietro</button>
+  </nav>
+  <section>
+    <div class="section-header">
+      <span class="section-emoji">🥡</span>
+      <h2 class="section-title">Ordina Asporto</h2>
+      <p class="section-desc">Seleziona i piatti con + e −. Al checkout si aprirà WhatsApp con l'ordine.</p>
+    </div>
+    <div id="menuContainer"></div>
+  </section>
+  <div class="cart-spacer" id="cartSpacer"></div>
+</div>
+
+<!-- ── Theme Toggle ──────────────────────────────────────────── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">☀</button>
+
+<!-- ── Cart Bar ──────────────────────────────────────────────── -->
+<div class="cart-bar hidden" id="cartBar">
+  <div class="cart-bar-left">
+    <div class="cart-badge" id="cartBadge">0</div>
+    <span class="cart-bar-label">Vai al carrello</span>
+  </div>
+  <span class="cart-bar-total" id="cartBarTotal">€0,00</span>
+</div>
+
+<!-- ── Overlay ───────────────────────────────────────────────── -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ── Cart Sheet ────────────────────────────────────────────── -->
+<div class="cart-sheet" id="cartSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-header-left">
+      <span class="sheet-title">🛒 Il tuo ordine</span>
+      <button type="button" class="cart-clear" id="cartClear">elimina tutto</button>
+    </div>
+    <button class="sheet-close" id="sheetClose" aria-label="Chiudi">✕</button>
+  </div>
+
+  <div class="cart-list" id="cartList"></div>
+
+  <div class="cart-total-row">
+    <span class="cart-total-label">Totale</span>
+    <span class="cart-total-val" id="cartTotalVal">€0,00</span>
+  </div>
+
+  <div class="checkout-form">
+    <div class="checkout-sep"></div>
+    <form id="formAsporto" novalidate>
+
+      <div class="delivery-toggle" id="deliveryToggle">
+        <button type="button" class="toggle-opt active" data-mode="ritiro">🏪 Ritiro</button>
+        <button type="button" class="toggle-opt"        data-mode="consegna">🛵 Consegna</button>
+      </div>
+
+      <div class="form-group">
+        <label for="a-nome">Nome *</label>
+        <input type="text" id="a-nome" placeholder="Mario" autocomplete="given-name" inputmode="text">
+      </div>
+      <div class="form-group">
+        <label for="a-telefono">Telefono *</label>
+        <input type="tel" id="a-telefono" placeholder="+39 333 1234567" autocomplete="tel" inputmode="tel">
+      </div>
+      <div class="form-group" id="addressGroup" style="display:none">
+        <label for="a-indirizzo">Indirizzo di consegna *</label>
+        <input type="text" id="a-indirizzo" placeholder="Via Roma 1, Perugia" autocomplete="street-address" inputmode="text">
+      </div>
+      <div class="form-group">
+        <label for="a-orario" id="a-orario-label">Orario di ritiro *</label>
+        <select id="a-orario">
+          <option value="">Scegli orario</option>
+          <option>12:00</option><option>12:30</option>
+          <option>13:00</option><option>13:30</option>
+          <option>19:00</option><option>19:30</option>
+          <option>20:00</option><option>20:30</option>
+          <option>21:00</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">💬 Invia ordine su WhatsApp</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── Review Sheet ──────────────────────────────────────────── -->
+<div class="review-overlay" id="reviewOverlay"></div>
+<div class="review-sheet" id="reviewSheet">
+  <div class="review-sheet-handle"></div>
+  <div class="review-sheet-header">
+    <div class="review-header" id="reviewSheetMeta"></div>
+    <button class="sheet-close" id="reviewSheetClose" aria-label="Chiudi">✕</button>
+  </div>
+  <div class="review-sheet-body">
+    <div class="review-stars" id="reviewSheetStars"></div>
+    <p class="review-sheet-text" id="reviewSheetText"></p>
+    <div class="review-sheet-scores" id="reviewSheetScores"></div>
+  </div>
+</div>
+
+<!-- ── Toast ─────────────────────────────────────────────────── -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════════════════════════════
+// THEME TOGGLE
+// ══════════════════════════════════════════════════════════════
+(function() {
+  const root   = document.documentElement;
+  const btn    = document.getElementById('themeToggle');
+  const saved  = localStorage.getItem('sc-theme') || 'dark';
+  const apply  = (theme) => {
+    root.classList.toggle('light', theme === 'light');
+    btn.textContent = theme === 'light' ? '🌙' : '☀';
+  };
+  apply(saved);
+  btn.addEventListener('click', () => {
+    const next = root.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem('sc-theme', next);
+    apply(next);
+  });
+})();
+
+// ══════════════════════════════════════════════════════════════
+// MENU DATA
+// ══════════════════════════════════════════════════════════════
+const MENU = [
+  {
+    cat: 'Antipasti',
+    items: [
+      { name: 'Tartara di salmone', desc: 'Tartare di salmone, tobiko e salsa lime alla menta', price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Antipasti Classici',
+    items: [
+      { name: 'Insalata',                  desc: '',     price: 3.00 },
+      { name: 'Alghe giapponesi wakame',   desc: '',     price: 3.00 },
+      { name: 'Edamame',                   desc: '',     price: 3.00 },
+      { name: 'Ravioli di carne',          desc: '2 pz', price: 3.00 },
+      { name: 'Ravioli di gamberi',        desc: '2 pz', price: 3.00 },
+      { name: 'Nuvolette di gamberi',      desc: '',     price: 3.00 },
+      { name: 'Involtino di primavera',    desc: '2 pz', price: 2.00 }
+    ]
+  },
+  {
+    cat: 'Secondi Piatti',
+    items: [
+      { name: 'Spaghetti di soia con frutti di mare', desc: 'Con uova, surimi, polpo, gambero',       price: 6.00 },
+      { name: 'Pollo con funghi e bambù',             desc: '',                                         price: 5.00 },
+      { name: 'Pollo al curry',                       desc: '',                                         price: 5.00 },
+      { name: 'Pollo al limone',                      desc: '',                                         price: 5.00 },
+      { name: 'Gamberi con funghi e bambù',           desc: '',                                         price: 5.00 },
+      { name: 'Gamberi al limone',                    desc: '',                                         price: 5.00 },
+      { name: 'Gamberi con sale e pepe',              desc: '',                                         price: 5.00 },
+      { name: 'Manzo in salsa piccante',              desc: '',                                         price: 5.00 },
+      { name: 'Manzo con funghi e bambù',             desc: '',                                         price: 5.00 },
+      { name: 'Spaghetti di soia con verdure',        desc: 'Con uova, verdure miste',                  price: 5.00 },
+      { name: 'Spaghetti di riso con verdure',        desc: 'Con uova, verdure miste',                  price: 5.00 },
+      { name: 'Spaghetti di riso con frutti di mare', desc: 'Con uova, surimi, polpo, gambero',       price: 5.00 },
+      { name: 'Yaki udon con verdure',                desc: 'Con uova, verdure miste',                  price: 5.00 },
+      { name: 'Yaki udon con frutti di mare',         desc: 'Con uova, surimi, polpo, gambero',       price: 5.00 },
+      { name: 'Riso alla cantonese',                  desc: 'Riso saltato con piselli, prosciutto e uova', price: 5.00 },
+      { name: 'Riso al curry',                        desc: 'Riso saltato con pollo, cipolla, zucchina, carota', price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Nigiri (2 pz)',
+    items: [
+      { name: 'Nigiri sake',   desc: 'Riso bianco, salmone',                         price: 3.00 },
+      { name: 'Nigiri maguro', desc: 'Riso bianco, tonno',                           price: 3.00 },
+      { name: 'Salmon flame',  desc: 'Riso bianco, salmone alla fiamma, pistacchio', price: 3.00 },
+      { name: 'Nigiri Cheng',  desc: 'Riso bianco, salmone, salsa flambé, pistacchio', price: 3.00 }
+    ]
+  },
+  {
+    cat: 'Special Roll (4 pz)',
+    items: [
+      { name: 'Tiger roll',        desc: 'Surimi, gambero in tempura, maionese, fette di salmone',                                                                price: 5.00 },
+      { name: 'Chicken roll',      desc: 'Pollo in tempura, avocado, sesamo, lemon zest, cipolla fritta, maionese',                                               price: 5.00 },
+      { name: 'Daikin roll',       desc: 'Gambero in tempura, avocado, tartare di salmone',                                                                       price: 5.00 },
+      { name: 'Doshi roll',        desc: 'Roll salmone con top fette di avocado, tartare di salmone speziato, pasta kataifi, crema burrata, salsa teriyaki',     price: 5.00 },
+      { name: 'Guacamole salmon',  desc: 'Roll con gambero fritto e avocado, ricoperto con salmone affumicato, guacamole, teriyaki',                              price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Uramaki Classici (4 pz)',
+    items: [
+      { name: 'Ebiten',          desc: 'Gambero in tempura, formaggio alpigiana, sesamo, pasta kataifi, salsa teriyaki', price: 5.00 },
+      { name: 'Salmone avocado', desc: 'Salmone, avocado, formaggio alpigiana',                                          price: 5.00 },
+      { name: 'California',      desc: 'Surimi, avocado, gambero cotto, maionese, tobiko rosso',                         price: 5.00 },
+      { name: 'Philadelphia',    desc: 'Sesamo, formaggio alpigiana, salmone',                                           price: 5.00 },
+      { name: 'Spicy salmone',   desc: 'Sesamo, tartare di salmone speziato, maionese piccante',                         price: 5.00 },
+      { name: 'Spicy tonno',     desc: 'Sesamo, tartare di tonno speziato, maionese piccante',                           price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Black Roll (4 pz)',
+    items: [
+      { name: 'California black', desc: 'Roll di riso Venere con surimi, maionese, gambero cotto ed avocado', price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Futomaki',
+    items: [
+      { name: 'Futomaki fritto', desc: 'Salmone, Philadelphia, avocado, salsa teriyaki', price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Hossomaki (6 pz)',
+    items: [
+      { name: 'Hoso sake', desc: 'Riso bianco, salmone', price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Poke Bowls',
+    items: [
+      { name: 'Poke salmon', desc: 'Riso al vapore, tartare di salmone e avocado, mandorle, formaggio alpigiana', price: 5.00 }
+    ]
+  },
+  {
+    cat: 'Sashimi (3 pz)',
+    items: [
+      { name: 'Sashimi salmon',   desc: 'Fette di salmone',  price: 3.00 },
+      { name: 'Sashimi branzino', desc: 'Fette di branzino', price: 3.00 }
+    ]
+  },
+  {
+    cat: 'Fritti',
+    items: [
+      { name: 'Pollo fritto',         desc: '',     price: 4.00 },
+      { name: 'Calamari fritti',      desc: '',     price: 4.00 },
+      { name: 'Tempura di verdure',   desc: '',     price: 4.00 },
+      { name: 'Ebi tempura',          desc: '3 pz', price: 4.00 },
+      { name: 'Pane cinese fritto',   desc: '2 pz', price: 3.00 }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════════════════════
+// CART STATE  { key → { name, price, qty } }
+// key = "catIndex_itemIndex"
+// ══════════════════════════════════════════════════════════════
+const cart = Object.create(null);
+
+function cartTotal() {
+  return Object.values(cart).reduce((s, v) => s + v.price * v.qty, 0);
+}
+
+function cartCount() {
+  return Object.values(cart).reduce((s, v) => s + v.qty, 0);
+}
+
+function eur(n) {
+  return '€' + n.toFixed(2).replace('.', ',');
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER MENU
+// ══════════════════════════════════════════════════════════════
+function renderMenu() {
+  const container = document.getElementById('menuContainer');
+
+  MENU.forEach((category, ci) => {
+    const catEl = document.createElement('div');
+    catEl.className = 'menu-category fade-in';
+
+    const title = document.createElement('div');
+    title.className = 'category-title';
+    title.textContent = category.cat;
+    catEl.appendChild(title);
+
+    category.items.forEach((item, ii) => {
+      const key = `${ci}_${ii}`;
+      const row = document.createElement('div');
+      row.className = 'menu-item';
+      row.innerHTML = `
+        <div class="item-info">
+          <div class="item-name">${item.name}</div>
+          ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+        </div>
+        <div class="item-price">${eur(item.price)}</div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-key="${key}" aria-label="Rimuovi una porzione di ${item.name}">−</button>
+          <span class="qty-num" id="q_${key}">0</span>
+          <button class="qty-btn plus"  data-key="${key}" aria-label="Aggiungi una porzione di ${item.name}">+</button>
+        </div>`;
+      catEl.appendChild(row);
+    });
+
+    container.appendChild(catEl);
+  });
+
+  // Single delegated listener on the container
+  container.addEventListener('click', e => {
+    const btn = e.target.closest('.qty-btn');
+    if (!btn) return;
+    changeQty(btn.dataset.key, btn.classList.contains('plus') ? 1 : -1);
+  });
+}
+
+function changeQty(key, delta) {
+  const [ci, ii] = key.split('_').map(Number);
+  const item = MENU[ci].items[ii];
+  if (!cart[key]) cart[key] = { name: item.name, price: item.price, qty: 0 };
+  cart[key].qty = Math.max(0, cart[key].qty + delta);
+  if (cart[key].qty === 0) delete cart[key];
+  refreshQtyDisplay(key);
+  updateCartBar();
+}
+
+function refreshQtyDisplay(key) {
+  const el = document.getElementById(`q_${key}`);
+  if (el) el.textContent = cart[key] ? cart[key].qty : 0;
+}
+
+// ══════════════════════════════════════════════════════════════
+// CART BAR
+// ══════════════════════════════════════════════════════════════
+function updateCartBar() {
+  const count = cartCount();
+  document.getElementById('cartBadge').textContent = count;
+  document.getElementById('cartBarTotal').textContent = eur(cartTotal());
+  const bar = document.getElementById('cartBar');
+  bar.classList.toggle('hidden', count === 0);
+  document.getElementById('cartSpacer').classList.toggle('active', count > 0);
+}
+
+document.getElementById('cartBar').addEventListener('click', openCart);
+
+// ══════════════════════════════════════════════════════════════
+// CART SHEET
+// ══════════════════════════════════════════════════════════════
+function openCart() {
+  renderCartList();
+  document.getElementById('cartSheet').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartSheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('overlay').addEventListener('click', closeCart);
+document.getElementById('sheetClose').addEventListener('click', closeCart);
+document.getElementById('cartClear').addEventListener('click', () => {
+  Object.keys(cart).forEach(k => delete cart[k]);
+  document.querySelectorAll('.qty-num').forEach(el => el.textContent = '0');
+  updateCartBar();
+  renderCartList();
+});
+
+function renderCartList() {
+  const list    = document.getElementById('cartList');
+  const btnClear = document.getElementById('cartClear');
+  list.innerHTML = '';
+
+  const entries = Object.entries(cart);
+  btnClear.classList.toggle('visible', entries.length > 0);
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="cart-empty">Nessun piatto selezionato</div>';
+  } else {
+    entries.forEach(([key, v]) => {
+      const row = document.createElement('div');
+      row.className = 'cart-item-row';
+      row.innerHTML = `
+        <div class="qty-control">
+          <button class="qty-btn minus" data-key="${key}" aria-label="Rimuovi">−</button>
+          <span class="qty-num">${v.qty}</span>
+          <button class="qty-btn plus"  data-key="${key}" aria-label="Aggiungi">+</button>
+        </div>
+        <div class="cart-item-name">${v.name}</div>
+        <div class="cart-item-sub">${eur(v.price * v.qty)}</div>`;
+      list.appendChild(row);
+    });
+
+    list.addEventListener('click', e => {
+      const btn = e.target.closest('.qty-btn');
+      if (!btn) return;
+      changeQty(btn.dataset.key, btn.classList.contains('plus') ? 1 : -1);
+      renderCartList();
+      document.getElementById('cartTotalVal').textContent = eur(cartTotal());
+    }, { once: false });
+  }
+
+  document.getElementById('cartTotalVal').textContent = eur(cartTotal());
+}
+
+// ══════════════════════════════════════════════════════════════
+// FORM: PRENOTAZIONE TAVOLO
+// ══════════════════════════════════════════════════════════════
+document.getElementById('formPrenota').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const nome     = document.getElementById('p-nome').value.trim();
+  const cognome  = document.getElementById('p-cognome').value.trim();
+  const telefono = document.getElementById('p-telefono').value.trim();
+  const data     = document.getElementById('p-data').value;
+  const orario   = document.getElementById('p-orario').value;
+  const coperti  = document.getElementById('p-coperti').value;
+  const note     = document.getElementById('p-note').value.trim();
+
+  if (!nome || !cognome || !telefono || !data || !orario || !coperti) {
+    showToast('⚠️ Compila tutti i campi obbligatori');
+    return;
+  }
+
+  const [y, m, d] = data.split('-');
+  const dataIt = `${d}/${m}/${y}`;
+
+  const msg = [
+    '🍽 PRENOTAZIONE TAVOLO — Sushi Cheng',
+    `👤 Nome: ${nome} ${cognome}`,
+    `📞 Telefono: ${telefono}`,
+    `📅 Data: ${dataIt}`,
+    `🕐 Orario: ${orario}`,
+    `👥 Coperti: ${coperti}`,
+    `📝 Note: ${note || 'nessuna'}`
+  ].join('\n');
+
+  window.open(`https://wa.me/393806463740?text=${encodeURIComponent(msg)}`, '_blank');
+});
+
+// ══════════════════════════════════════════════════════════════
+// DELIVERY TOGGLE
+// ══════════════════════════════════════════════════════════════
+let deliveryMode = 'ritiro';
+
+document.getElementById('deliveryToggle').addEventListener('click', e => {
+  const btn = e.target.closest('.toggle-opt');
+  if (!btn) return;
+  deliveryMode = btn.dataset.mode;
+  document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const isConsegna = deliveryMode === 'consegna';
+  document.getElementById('addressGroup').style.display  = isConsegna ? 'block' : 'none';
+  document.getElementById('a-orario-label').textContent  = isConsegna ? 'Orario di consegna *' : 'Orario di ritiro *';
+});
+
+// ══════════════════════════════════════════════════════════════
+// FORM: ORDINE ASPORTO
+// ══════════════════════════════════════════════════════════════
+document.getElementById('formAsporto').addEventListener('submit', e => {
+  e.preventDefault();
+
+  if (cartCount() === 0) {
+    showToast('⚠️ Aggiungi almeno un piatto al carrello');
+    return;
+  }
+
+  const nome      = document.getElementById('a-nome').value.trim();
+  const telefono  = document.getElementById('a-telefono').value.trim();
+  const orario    = document.getElementById('a-orario').value;
+  const indirizzo = deliveryMode === 'consegna'
+    ? document.getElementById('a-indirizzo').value.trim()
+    : null;
+
+  if (!nome || !telefono || !orario) {
+    showToast('⚠️ Compila tutti i campi obbligatori');
+    return;
+  }
+  if (deliveryMode === 'consegna' && !indirizzo) {
+    showToast('⚠️ Inserisci l\'indirizzo di consegna');
+    return;
+  }
+
+  const righe = Object.values(cart)
+    .map(v => `• ${v.name} x${v.qty} — ${eur(v.price * v.qty)}`)
+    .join('\n');
+
+  const label = deliveryMode === 'consegna' ? 'Consegna' : 'Ritiro';
+  const emoji = deliveryMode === 'consegna' ? '🛵' : '🥡';
+
+  const msg = [
+    `${emoji} ORDINE ${label.toUpperCase()} — Sushi Cheng`,
+    `👤 Nome: ${nome}`,
+    `📞 Telefono: ${telefono}`,
+    indirizzo ? `📍 Indirizzo: ${indirizzo}` : null,
+    `🕐 ${label}: ${orario}`,
+    '📋 Ordine:',
+    righe,
+    `💰 Totale: ${eur(cartTotal())}`
+  ].filter(Boolean).join('\n');
+
+  window.open(`https://wa.me/393806463740?text=${encodeURIComponent(msg)}`, '_blank');
+});
+
+// ══════════════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ══════════════════════════════════════════════════════════════
+// ROUTER
+// ══════════════════════════════════════════════════════════════
+function setView(page) {
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+  const view = document.getElementById('view-' + page);
+  if (view) view.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function navigate(page) {
+  const newUrl = location.pathname + (page === 'home' ? '' : '#' + page);
+  history.pushState({ page }, '', newUrl);
+  setView(page);
+}
+
+window.addEventListener('popstate', e => {
+  setView(e.state?.page || location.hash.slice(1) || 'home');
+  window.scrollTo(0, 0);
+});
+
+document.querySelectorAll('[data-goto]').forEach(btn => {
+  btn.addEventListener('click', () => navigate(btn.dataset.goto));
+});
+
+// ══════════════════════════════════════════════════════════════
+// SCROLL ANIMATIONS
+// ══════════════════════════════════════════════════════════════
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.07 });
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+renderMenu();
+
+// Observe all fade-in elements (including newly rendered menu categories)
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Set min date to today
+document.getElementById('p-data').min = new Date().toISOString().split('T')[0];
+
+// Init router — show the right view based on current URL hash
+setView(location.hash.slice(1) || 'home');
+
+// ── Drag-to-scroll helper ─────────────────────────────────────
+function makeDraggable(el) {
+  let isDown = false, startX, scrollLeft;
+  el.addEventListener('mousedown', e => {
+    isDown = true;
+    el.style.cursor = 'grabbing';
+    startX = e.pageX - el.offsetLeft;
+    scrollLeft = el.scrollLeft;
+  });
+  el.addEventListener('mouseleave', () => { isDown = false; el.style.cursor = 'grab'; });
+  el.addEventListener('mouseup',    () => { isDown = false; el.style.cursor = 'grab'; });
+  el.addEventListener('mousemove',  e => {
+    if (!isDown) return;
+    e.preventDefault();
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+  });
+}
+
+makeDraggable(document.getElementById('heroGallery'));
+makeDraggable(document.getElementById('reviewsTrack'));
+
+// ── Review sheet ──────────────────────────────────────────────
+const reviewOverlay = document.getElementById('reviewOverlay');
+const reviewSheet   = document.getElementById('reviewSheet');
+
+function openReview(card) {
+  document.getElementById('reviewSheetMeta').innerHTML   = card.querySelector('.review-header').innerHTML;
+  document.getElementById('reviewSheetStars').textContent = card.querySelector('.review-stars').textContent;
+  document.getElementById('reviewSheetText').textContent  = card.querySelector('.review-text').textContent;
+  document.getElementById('reviewSheetScores').textContent = card.querySelector('.review-scores').textContent;
+  reviewOverlay.classList.add('open');
+  reviewSheet.classList.add('open');
+}
+
+function closeReview() {
+  reviewOverlay.classList.remove('open');
+  reviewSheet.classList.remove('open');
+}
+
+document.getElementById('reviewsTrack').addEventListener('click', e => {
+  const card = e.target.closest('.review-card:not(.review-card-summary)');
+  if (card) openReview(card);
+});
+
+reviewOverlay.addEventListener('click', closeReview);
+document.getElementById('reviewSheetClose').addEventListener('click', closeReview);
+</script>
+</body>
+</html>
