@@ -1526,11 +1526,34 @@ function cartCount() {
 const MENU_FISSO_QTY   = 8;
 const MENU_FISSO_PRICE = 28.90;
 
+function promoCalc() {
+  const prices = [];
+  Object.values(cart).forEach(v => {
+    for (let i = 0; i < v.qty; i++) prices.push(v.price);
+  });
+  prices.sort((a, b) => b - a);
+
+  let effective = 0;
+  let promoSets = 0;
+
+  for (let i = 0; i < prices.length; i += MENU_FISSO_QTY) {
+    const chunk = prices.slice(i, i + MENU_FISSO_QTY);
+    const chunkSum = chunk.reduce((s, p) => s + p, 0);
+    if (chunk.length === MENU_FISSO_QTY && chunkSum > MENU_FISSO_PRICE) {
+      effective += MENU_FISSO_PRICE;
+      promoSets++;
+    } else {
+      effective += chunkSum;
+    }
+  }
+
+  const extraQty    = prices.length - promoSets * MENU_FISSO_QTY;
+  const extrasTotal = effective - promoSets * MENU_FISSO_PRICE;
+  return { active: promoSets > 0, effective, promoSets, extraQty, extrasTotal };
+}
+
 function effectiveTotal() {
-  const raw = cartTotal();
-  return (cartCount() === MENU_FISSO_QTY && raw > MENU_FISSO_PRICE)
-    ? MENU_FISSO_PRICE
-    : raw;
+  return promoCalc().effective;
 }
 
 function eur(n) {
@@ -1668,15 +1691,20 @@ function renderCartList() {
     });
   }
 
-  const raw      = cartTotal();
-  const count    = cartCount();
-  const promoOn  = count === MENU_FISSO_QTY && raw > MENU_FISSO_PRICE;
-  document.getElementById('cartTotalVal').textContent = eur(promoOn ? MENU_FISSO_PRICE : raw);
+  const { active, effective, promoSets, extraQty, extrasTotal } = promoCalc();
+  document.getElementById('cartTotalVal').textContent = eur(effective);
 
   const noteEl = document.getElementById('cartPromoNote');
-  noteEl.classList.toggle('visible', promoOn);
-  if (promoOn) {
-    noteEl.innerHTML = `🎉 Menù fisso 8 piatti — <s>${eur(raw)}</s> → <strong>${eur(MENU_FISSO_PRICE)}</strong>`;
+  noteEl.classList.toggle('visible', active);
+  if (active) {
+    const promoLabel = promoSets === 1 ? 'Menù fisso 8 piatti' : `${promoSets}× Menù fisso 8 piatti`;
+    const promoTotal = promoSets * MENU_FISSO_PRICE;
+    if (extraQty === 0) {
+      noteEl.innerHTML = `🎉 ${promoLabel} — <s>${eur(cartTotal())}</s> → <strong>${eur(promoTotal)}</strong>`;
+    } else {
+      const pl = extraQty === 1 ? 'aggiuntivo' : 'aggiuntivi';
+      noteEl.innerHTML = `🎉 ${promoLabel} <strong>${eur(promoTotal)}</strong> + ${extraQty} piatt${extraQty === 1 ? 'o' : 'i'} ${pl} <strong>${eur(extrasTotal)}</strong>`;
+    }
   }
 }
 
@@ -1765,6 +1793,16 @@ document.getElementById('formAsporto').addEventListener('submit', e => {
   const label = deliveryMode === 'consegna' ? 'Consegna' : 'Ritiro';
   const emoji = deliveryMode === 'consegna' ? '🛵' : '🥡';
 
+  const promo = promoCalc();
+  let totaleLabel = eur(promo.effective);
+  if (promo.active) {
+    const promoLabel = promo.promoSets === 1 ? 'Menù fisso 8 piatti' : `${promo.promoSets}× Menù fisso 8 piatti`;
+    const promoTotal = promo.promoSets * MENU_FISSO_PRICE;
+    totaleLabel += promo.extraQty === 0
+      ? ` (${promoLabel})`
+      : ` (${promoLabel} ${eur(promoTotal)} + ${promo.extraQty} piatt${promo.extraQty === 1 ? 'o' : 'i'} aggiuntiv${promo.extraQty === 1 ? 'o' : 'i'})`;
+  }
+
   const msg = [
     `${emoji} ORDINE ${label.toUpperCase()} — Sushi Cheng`,
     `👤 Nome: ${nome}`,
@@ -1773,7 +1811,7 @@ document.getElementById('formAsporto').addEventListener('submit', e => {
     `🕐 ${label}: ${orario}`,
     '📋 Ordine:',
     righe,
-    `💰 Totale: ${eur(effectiveTotal())}${cartCount() === MENU_FISSO_QTY && cartTotal() > MENU_FISSO_PRICE ? ' (Menù fisso 8 piatti)' : ''}`
+    `💰 Totale: ${totaleLabel}`
   ].filter(Boolean).join('\n');
 
   window.open(`https://wa.me/393806463740?text=${encodeURIComponent(msg)}`, '_blank');
