@@ -973,6 +973,68 @@ footer {
 
 footer a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
 
+/* ── Promo strip (home) ────────────────────────────────────────── */
+.promo-strip {
+  align-self: stretch;
+  margin: 20px 0 0;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.promo-strip:active { opacity: 0.72; }
+.promo-strip-label {
+  font-family: var(--font-sub);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.promo-strip-title {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.promo-strip-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.promo-strip-cta {
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  margin-top: 6px;
+}
+
+/* ── Promo note (menu fisso 8 piatti) ─────────────────────────── */
+.cart-promo-note {
+  display: none;
+  margin: -2px 16px 10px;
+  padding: 10px 12px;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: var(--font-sub);
+  color: var(--muted);
+  line-height: 1.5;
+}
+.cart-promo-note.visible { display: block; }
+.cart-promo-note s { opacity: 0.55; }
+
 /* ── Cart spacer (when cart bar visible) ───────────────────────── */
 .cart-spacer {
   height: 0;
@@ -1021,6 +1083,13 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
     <div class="hero-btns">
       <button type="button" class="btn-primary" data-goto="prenota">🍽 Prenota un tavolo</button>
       <button type="button" class="btn-outline" data-goto="asporto">🥡 Ordina asporto</button>
+    </div>
+
+    <div class="promo-strip fade-in" data-goto="asporto">
+      <span class="promo-strip-label">Offerta asporto</span>
+      <span class="promo-strip-title">8 piatti a soli €28,90</span>
+      <span class="promo-strip-sub">Scegli 8 piatti dal menù — se il totale supera €28,90, paghi solo €28,90.</span>
+      <span class="promo-strip-cta">Ordina asporto →</span>
     </div>
 
     <div class="gallery" id="heroGallery">
@@ -1245,6 +1314,7 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
     <span class="cart-total-label">Totale</span>
     <span class="cart-total-val" id="cartTotalVal">€0,00</span>
   </div>
+  <div class="cart-promo-note" id="cartPromoNote"></div>
 
   <div class="checkout-form">
     <div class="checkout-sep"></div>
@@ -1453,6 +1523,16 @@ function cartCount() {
   return Object.values(cart).reduce((s, v) => s + v.qty, 0);
 }
 
+const MENU_FISSO_QTY   = 8;
+const MENU_FISSO_PRICE = 28.90;
+
+function effectiveTotal() {
+  const raw = cartTotal();
+  return (cartCount() === MENU_FISSO_QTY && raw > MENU_FISSO_PRICE)
+    ? MENU_FISSO_PRICE
+    : raw;
+}
+
 function eur(n) {
   return '€' + n.toFixed(2).replace('.', ',');
 }
@@ -1522,7 +1602,7 @@ function refreshQtyDisplay(key) {
 function updateCartBar() {
   const count = cartCount();
   document.getElementById('cartBadge').textContent = count;
-  document.getElementById('cartBarTotal').textContent = eur(cartTotal());
+  document.getElementById('cartBarTotal').textContent = eur(effectiveTotal());
   const bar = document.getElementById('cartBar');
   bar.classList.toggle('hidden', count === 0);
   document.getElementById('cartSpacer').classList.toggle('active', count > 0);
@@ -1548,6 +1628,13 @@ function closeCart() {
 
 document.getElementById('overlay').addEventListener('click', closeCart);
 document.getElementById('sheetClose').addEventListener('click', closeCart);
+
+document.getElementById('cartList').addEventListener('click', e => {
+  const btn = e.target.closest('.qty-btn');
+  if (!btn) return;
+  changeQty(btn.dataset.key, btn.classList.contains('plus') ? 1 : -1);
+  renderCartList();
+});
 document.getElementById('cartClear').addEventListener('click', () => {
   Object.keys(cart).forEach(k => delete cart[k]);
   document.querySelectorAll('.qty-num').forEach(el => el.textContent = '0');
@@ -1579,17 +1666,18 @@ function renderCartList() {
         <div class="cart-item-sub">${eur(v.price * v.qty)}</div>`;
       list.appendChild(row);
     });
-
-    list.addEventListener('click', e => {
-      const btn = e.target.closest('.qty-btn');
-      if (!btn) return;
-      changeQty(btn.dataset.key, btn.classList.contains('plus') ? 1 : -1);
-      renderCartList();
-      document.getElementById('cartTotalVal').textContent = eur(cartTotal());
-    }, { once: false });
   }
 
-  document.getElementById('cartTotalVal').textContent = eur(cartTotal());
+  const raw      = cartTotal();
+  const count    = cartCount();
+  const promoOn  = count === MENU_FISSO_QTY && raw > MENU_FISSO_PRICE;
+  document.getElementById('cartTotalVal').textContent = eur(promoOn ? MENU_FISSO_PRICE : raw);
+
+  const noteEl = document.getElementById('cartPromoNote');
+  noteEl.classList.toggle('visible', promoOn);
+  if (promoOn) {
+    noteEl.innerHTML = `🎉 Menù fisso 8 piatti — <s>${eur(raw)}</s> → <strong>${eur(MENU_FISSO_PRICE)}</strong>`;
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1685,7 +1773,7 @@ document.getElementById('formAsporto').addEventListener('submit', e => {
     `🕐 ${label}: ${orario}`,
     '📋 Ordine:',
     righe,
-    `💰 Totale: ${eur(cartTotal())}`
+    `💰 Totale: ${eur(effectiveTotal())}${cartCount() === MENU_FISSO_QTY && cartTotal() > MENU_FISSO_PRICE ? ' (Menù fisso 8 piatti)' : ''}`
   ].filter(Boolean).join('\n');
 
   window.open(`https://wa.me/393806463740?text=${encodeURIComponent(msg)}`, '_blank');
