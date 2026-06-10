@@ -628,7 +628,10 @@ textarea { resize: vertical; min-height: 84px; }
   gap: 10px;
   padding: 12px 0;
   border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
+.menu-item:active { opacity: 0.7; }
 
 .menu-item:last-child { border-bottom: none; }
 
@@ -1041,6 +1044,71 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
 }
 
 .theme-toggle:active { transform: scale(0.90); }
+
+/* ── Dish Sheet ─────────────────────────────────────────────────── */
+.dish-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 301;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.dish-overlay.open { opacity: 1; pointer-events: all; }
+
+.dish-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  background: var(--bg-card);
+  border-radius: 22px 22px 0 0;
+  z-index: 302;
+  transition: transform 0.36s cubic-bezier(0.32,0.72,0,1);
+  max-height: 85vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+.dish-sheet.open { transform: translateY(0); }
+
+.dish-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  gap: 10px;
+}
+
+.dish-sheet-name {
+  font-family: var(--font-title);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.dish-sheet-body { padding: 0 16px 20px; }
+
+.dish-sheet-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+
+.dish-sheet-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.dish-sheet-price { font-size: 24px; font-weight: 800; }
 </style>
 </head>
 <body>
@@ -1177,7 +1245,7 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
 <!-- ═══ VIEW: PRENOTA UN TAVOLO ════════════════════════════════ -->
 <div id="view-prenota" class="page-view">
   <nav class="page-nav">
-    <button type="button" class="nav-back" data-goto="home">← Indietro</button>
+    <button type="button" class="nav-back" data-goto="home">← Home</button>
   </nav>
   <section>
     <div class="section-header">
@@ -1238,7 +1306,7 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
 <!-- ═══ VIEW: ORDINA ASPORTO ═══════════════════════════════════ -->
 <div id="view-asporto" class="page-view">
   <nav class="page-nav">
-    <button type="button" class="nav-back" data-goto="home">← Indietro</button>
+    <button type="button" class="nav-back" data-goto="home">← Home</button>
   </nav>
   <section>
     <div class="section-header">
@@ -1328,6 +1396,27 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
   </div>
 </div>
 
+<!-- ── Dish Sheet ────────────────────────────────────────────── -->
+<div class="dish-overlay" id="dishOverlay"></div>
+<div class="dish-sheet" id="dishSheet">
+  <div class="sheet-handle"></div>
+  <div class="dish-sheet-header">
+    <span class="dish-sheet-name" id="dishSheetName"></span>
+    <button class="sheet-close" id="dishSheetClose" aria-label="Chiudi">✕</button>
+  </div>
+  <div class="dish-sheet-body">
+    <p class="dish-sheet-desc" id="dishSheetDesc"></p>
+    <div class="dish-sheet-footer">
+      <span class="dish-sheet-price" id="dishSheetPrice"></span>
+      <div class="qty-control">
+        <button class="qty-btn minus" id="dishSheetMinus" aria-label="Rimuovi">−</button>
+        <span class="qty-num" id="dishSheetQtyNum">0</span>
+        <button class="qty-btn plus" id="dishSheetPlus" aria-label="Aggiungi">+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── Toast ─────────────────────────────────────────────────── -->
 <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
@@ -1357,116 +1446,77 @@ footer a { color: var(--text); text-decoration: underline; text-underline-offset
 // MENU DATA
 // ══════════════════════════════════════════════════════════════
 const MENU = [
-  {
-    cat: 'Antipasti',
-    items: [
-      { name: 'Tartara di salmone', desc: 'Tartare di salmone, tobiko e salsa lime alla menta', price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Antipasti Classici',
-    items: [
-      { name: 'Insalata',                  desc: '',     price: 3.00 },
-      { name: 'Alghe giapponesi wakame',   desc: '',     price: 3.00 },
-      { name: 'Edamame',                   desc: '',     price: 3.00 },
-      { name: 'Ravioli di carne',          desc: '2 pz', price: 3.00 },
-      { name: 'Ravioli di gamberi',        desc: '2 pz', price: 3.00 },
-      { name: 'Nuvolette di gamberi',      desc: '',     price: 3.00 },
-      { name: 'Involtino di primavera',    desc: '2 pz', price: 2.00 }
-    ]
-  },
-  {
-    cat: 'Secondi Piatti',
-    items: [
-      { name: 'Spaghetti di soia con frutti di mare', desc: 'Con uova, surimi, polpo, gambero',       price: 6.00 },
-      { name: 'Pollo con funghi e bambù',             desc: '',                                         price: 5.00 },
-      { name: 'Pollo al curry',                       desc: '',                                         price: 5.00 },
-      { name: 'Pollo al limone',                      desc: '',                                         price: 5.00 },
-      { name: 'Gamberi con funghi e bambù',           desc: '',                                         price: 5.00 },
-      { name: 'Gamberi al limone',                    desc: '',                                         price: 5.00 },
-      { name: 'Gamberi con sale e pepe',              desc: '',                                         price: 5.00 },
-      { name: 'Manzo in salsa piccante',              desc: '',                                         price: 5.00 },
-      { name: 'Manzo con funghi e bambù',             desc: '',                                         price: 5.00 },
-      { name: 'Spaghetti di soia con verdure',        desc: 'Con uova, verdure miste',                  price: 5.00 },
-      { name: 'Spaghetti di riso con verdure',        desc: 'Con uova, verdure miste',                  price: 5.00 },
-      { name: 'Spaghetti di riso con frutti di mare', desc: 'Con uova, surimi, polpo, gambero',       price: 5.00 },
-      { name: 'Yaki udon con verdure',                desc: 'Con uova, verdure miste',                  price: 5.00 },
-      { name: 'Yaki udon con frutti di mare',         desc: 'Con uova, surimi, polpo, gambero',       price: 5.00 },
-      { name: 'Riso alla cantonese',                  desc: 'Riso saltato con piselli, prosciutto e uova', price: 5.00 },
-      { name: 'Riso al curry',                        desc: 'Riso saltato con pollo, cipolla, zucchina, carota', price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Nigiri (2 pz)',
-    items: [
-      { name: 'Nigiri sake',   desc: 'Riso bianco, salmone',                         price: 3.00 },
-      { name: 'Nigiri maguro', desc: 'Riso bianco, tonno',                           price: 3.00 },
-      { name: 'Salmon flame',  desc: 'Riso bianco, salmone alla fiamma, pistacchio', price: 3.00 },
-      { name: 'Nigiri Cheng',  desc: 'Riso bianco, salmone, salsa flambé, pistacchio', price: 3.00 }
-    ]
-  },
-  {
-    cat: 'Special Roll (4 pz)',
-    items: [
-      { name: 'Tiger roll',        desc: 'Surimi, gambero in tempura, maionese, fette di salmone',                                                                price: 5.00 },
-      { name: 'Chicken roll',      desc: 'Pollo in tempura, avocado, sesamo, lemon zest, cipolla fritta, maionese',                                               price: 5.00 },
-      { name: 'Daikin roll',       desc: 'Gambero in tempura, avocado, tartare di salmone',                                                                       price: 5.00 },
-      { name: 'Doshi roll',        desc: 'Roll salmone con top fette di avocado, tartare di salmone speziato, pasta kataifi, crema burrata, salsa teriyaki',     price: 5.00 },
-      { name: 'Guacamole salmon',  desc: 'Roll con gambero fritto e avocado, ricoperto con salmone affumicato, guacamole, teriyaki',                              price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Uramaki Classici (4 pz)',
-    items: [
-      { name: 'Ebiten',          desc: 'Gambero in tempura, formaggio alpigiana, sesamo, pasta kataifi, salsa teriyaki', price: 5.00 },
-      { name: 'Salmone avocado', desc: 'Salmone, avocado, formaggio alpigiana',                                          price: 5.00 },
-      { name: 'California',      desc: 'Surimi, avocado, gambero cotto, maionese, tobiko rosso',                         price: 5.00 },
-      { name: 'Philadelphia',    desc: 'Sesamo, formaggio alpigiana, salmone',                                           price: 5.00 },
-      { name: 'Spicy salmone',   desc: 'Sesamo, tartare di salmone speziato, maionese piccante',                         price: 5.00 },
-      { name: 'Spicy tonno',     desc: 'Sesamo, tartare di tonno speziato, maionese piccante',                           price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Black Roll (4 pz)',
-    items: [
-      { name: 'California black', desc: 'Roll di riso Venere con surimi, maionese, gambero cotto ed avocado', price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Futomaki',
-    items: [
-      { name: 'Futomaki fritto', desc: 'Salmone, Philadelphia, avocado, salsa teriyaki', price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Hossomaki (6 pz)',
-    items: [
-      { name: 'Hoso sake', desc: 'Riso bianco, salmone', price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Poke Bowls',
-    items: [
-      { name: 'Poke salmon', desc: 'Riso al vapore, tartare di salmone e avocado, mandorle, formaggio alpigiana', price: 5.00 }
-    ]
-  },
-  {
-    cat: 'Sashimi (3 pz)',
-    items: [
-      { name: 'Sashimi salmon',   desc: 'Fette di salmone',  price: 3.00 },
-      { name: 'Sashimi branzino', desc: 'Fette di branzino', price: 3.00 }
-    ]
-  },
-  {
-    cat: 'Fritti',
-    items: [
-      { name: 'Pollo fritto',         desc: '',     price: 4.00 },
-      { name: 'Calamari fritti',      desc: '',     price: 4.00 },
-      { name: 'Tempura di verdure',   desc: '',     price: 4.00 },
-      { name: 'Ebi tempura',          desc: '3 pz', price: 4.00 },
-      { name: 'Pane cinese fritto',   desc: '2 pz', price: 3.00 }
-    ]
-  }
+  { cat: 'Antipasti Crudi', items: [
+    { name: 'Tartare di salmone',    desc: 'Tartare di salmone con salsa lime alla menta, caviale tobiko rosso, olio evo',                     price: 5.00 },
+    { name: 'Ebi Lover',             desc: 'Gambero fritto alle mandorle, salmone, teriyaki, pasta kataifi (2 pz)',                            price: 3.50 },
+    { name: 'Tacos Salmone',         desc: 'Sfoglia croccante, salmone, formaggio fresco, tartare di salmone, mandorle, teriyaki (2 pz)',      price: 4.00 },
+    { name: 'Tacos Salmone Cotto',   desc: 'Sfoglia croccante, salmone grigliato, maionese, teriyaki, mais (2 pz)',                            price: 4.00 }
+  ]},
+  { cat: 'Antipasti Classici', items: [
+    { name: 'Involtini primavera',   desc: '2 pz — croccanti con verdure',                  price: 2.00 },
+    { name: 'Ravioli di carne',      desc: '2 pz — gyoza al vapore o fritti',               price: 3.50 },
+    { name: 'Ravioli di gamberi',    desc: '3 pz — har gow al vapore',                      price: 4.50 },
+    { name: 'Alghe wakame',          desc: 'Alga wakame condita',                            price: 4.00 },
+    { name: 'Nuvolette di gambero',  desc: 'Crackers di gamberi fritti',                     price: 3.00 },
+    { name: 'Edamame',               desc: 'Baccelli di soia al vapore con sale',            price: 3.00 }
+  ]},
+  { cat: 'Crispy e Bignè (2 pz)', items: [
+    { name: 'Crispy Salmone',        desc: 'Riso fritto, tartare di salmone marinato, salsa mango, teriyaki, rucola fritta',                   price: 4.00 },
+    { name: 'Crispy Tuna',           desc: 'Riso fritto, tartare di tonno, salsa tartufata, teriyaki, erba cipollina',                         price: 4.00 },
+    { name: 'Crispy Suzuki',         desc: 'Riso fritto, tartare di branzino, teriyaki, rucola fritta',                                        price: 4.00 },
+    { name: 'Crispy Lemon',          desc: 'Riso fritto, tartare di salmone, lemon curd, teriyaki, cipolla fritta croccante',                  price: 4.00 },
+    { name: 'Crispy Fruit',          desc: 'Riso fritto, tartare di salmone, maionese agli agrumi, fragola',                                   price: 4.00 },
+    { name: 'Crispy Furikake',       desc: 'Riso fritto, mousse di avocado, tartare di salmone, teriyaki, furikake',                           price: 4.00 },
+    { name: 'Bignè Salmone',         desc: 'Riso bianco, salmone, formaggio fresco, pistacchio, pasta kataifi',                               price: 4.00 },
+    { name: 'Bignè Spicy Salmon',    desc: 'Riso bianco, salmone, tartare di salmone, maionese piccante',                                     price: 4.00 },
+    { name: 'Bignè Spicy Tuna',      desc: 'Riso bianco, tonno, tartare di tonno, maionese piccante',                                         price: 4.00 },
+    { name: 'Bignè Spicy Suzuki',    desc: 'Riso bianco, branzino, maionese piccante',                                                        price: 4.00 },
+    { name: 'Bignè Cheng',           desc: 'Riso bianco, salmone, mousse di avocado, lemon curd',                                             price: 4.00 },
+    { name: 'Bignè Fruit',           desc: 'Riso bianco, salmone, formaggio fresco, mango, salsa mango',                                      price: 4.00 },
+    { name: 'Bignè White',           desc: 'Riso bianco, branzino, maionese agli agrumi, lemon zest',                                         price: 4.00 },
+    { name: 'Bignè Fragola',         desc: 'Riso bianco, salmone, tartare di salmone, pistacchio, fragola',                                   price: 4.00 }
+  ]},
+  { cat: 'Hossomaki (6 pz)', items: [
+    { name: 'Hoso Sake',             desc: 'Riso bianco, salmone, alghe nori',                                                                price: 5.00 },
+    { name: 'Hoso Maguro',           desc: 'Riso bianco, tonno, alghe nori',                                                                  price: 5.00 },
+    { name: 'Hoso Suzuki',           desc: 'Riso bianco, branzino, alghe nori',                                                               price: 5.00 },
+    { name: 'Hoso Almond',           desc: 'Hosomaki fritto, tartare di salmone, teriyaki, mandorle tostate',                                 price: 6.00 },
+    { name: 'Hoso Suzuki Fritto',    desc: 'Hosomaki fritto, tartare di branzino, formaggio fresco, salsa tartufata, teriyaki',               price: 6.00 },
+    { name: 'Hoso Guacamole',        desc: 'Hosomaki fritto, mousse di avocado, teriyaki, pasta kataifi',                                     price: 6.00 },
+    { name: 'Hoso Fragola',          desc: 'Hosomaki fritto, formaggio fresco, fragola, teriyaki',                                            price: 6.00 }
+  ]},
+  { cat: 'Primi e Secondi Piatti', items: [
+    { name: 'Spaghetti di soia frutti di mare', desc: 'Con uova, surimi, polpo e gambero',               price: 6.00 },
+    { name: 'Spaghetti di soia con verdure',    desc: 'Con uova e verdure miste',                        price: 5.00 },
+    { name: 'Spaghetti di riso frutti di mare', desc: 'Con uova, surimi, polpo e gambero',               price: 6.00 },
+    { name: 'Spaghetti di riso con verdure',    desc: 'Con uova e verdure miste',                        price: 5.00 },
+    { name: 'Udon con verdure',                 desc: 'Udon saltati con uova e verdure miste',           price: 5.00 },
+    { name: 'Udon con frutti di mare',          desc: 'Udon saltati con surimi, polpo e gambero',        price: 6.00 },
+    { name: 'Riso alla cantonese',              desc: 'Riso saltato con piselli, prosciutto e uova',     price: 5.00 },
+    { name: 'Riso con verdure',                 desc: 'Riso saltato con verdure miste',                  price: 5.00 },
+    { name: 'Riso ai frutti di mare',           desc: 'Riso saltato con surimi, polpo e gambero',        price: 6.00 },
+    { name: 'Riso con piselli e gambero',       desc: 'Riso saltato con piselli e gambero',              price: 6.00 },
+    { name: 'Riso al curry',                    desc: 'Riso saltato con pollo, cipolla, zucchina e carota', price: 5.00 },
+    { name: 'Pollo con funghi e bambù',         desc: 'Saltato in wok con funghi shiitake e bambù',      price: 5.00 },
+    { name: 'Pollo al limone',                  desc: 'Pollo fritto con glassa al limone',               price: 5.00 },
+    { name: 'Pollo al curry',                   desc: 'Pollo in salsa di curry giapponese',              price: 5.00 },
+    { name: 'Gamberi con funghi e bambù',       desc: 'Gamberi saltati in wok con funghi e bambù',       price: 6.00 },
+    { name: 'Gamberi thai',                     desc: 'Gamberi in salsa thai',                           price: 6.00 },
+    { name: 'Gamberi al limone',                desc: 'Gamberi fritti con salsa al limone',              price: 6.00 },
+    { name: 'Gamberi con sale e pepe',          desc: 'Gamberi fritti con sale e pepe sichuan',          price: 6.00 },
+    { name: 'Gamberi in salsa piccante',        desc: 'Gamberi saltati in wok con salsa piccante',       price: 6.00 },
+    { name: 'Manzo in salsa piccante',          desc: 'Manzo saltato in wok con salsa piccante',         price: 5.00 },
+    { name: 'Manzo con funghi e bambù',         desc: 'Manzo saltato in wok con funghi e bambù',         price: 5.00 }
+  ]},
+  { cat: 'Fritti', items: [
+    { name: 'Ebi tempura',           desc: '3 gamberi in pastella tempura',                              price: 4.50 },
+    { name: 'Calamari fritti',       desc: '3 pz — calamari in pastella croccante',                      price: 4.00 },
+    { name: 'Pane cinese fritto',    desc: '2 pz — morbido e croccante',                                 price: 3.00 },
+    { name: 'Takoyaki',              desc: '2 pz — polpette di polpo giapponesi',                        price: 3.50 },
+    { name: 'Money bag',             desc: '2 pz — sacchetti croccanti ripieni',                         price: 3.00 },
+    { name: 'Chele di granchio',     desc: '2 pz — chele di granchio fritte',                            price: 4.00 },
+    { name: 'Gambero patate',        desc: '2 pz — gambero avvolto in patate fritto',                    price: 3.00 }
+  ]}
 ];
 
 // ══════════════════════════════════════════════════════════════
@@ -1539,6 +1589,8 @@ function renderMenu() {
       const key = `${ci}_${ii}`;
       const row = document.createElement('div');
       row.className = 'menu-item';
+      row.dataset.ci = ci;
+      row.dataset.ii = ii;
       row.innerHTML = `
         <div class="item-info">
           <div class="item-name">${item.name}</div>
@@ -1559,8 +1611,12 @@ function renderMenu() {
   // Single delegated listener on the container
   container.addEventListener('click', e => {
     const btn = e.target.closest('.qty-btn');
-    if (!btn) return;
-    changeQty(btn.dataset.key, btn.classList.contains('plus') ? 1 : -1);
+    if (btn) {
+      changeQty(btn.dataset.key, btn.classList.contains('plus') ? 1 : -1);
+      return;
+    }
+    const row = e.target.closest('.menu-item');
+    if (row) openDishSheet(Number(row.dataset.ci), Number(row.dataset.ii));
   });
 }
 
@@ -1859,6 +1915,50 @@ document.getElementById('reviewsTrack').addEventListener('click', e => {
 
 reviewOverlay.addEventListener('click', closeReview);
 document.getElementById('reviewSheetClose').addEventListener('click', closeReview);
+
+// ══════════════════════════════════════════════════════════════
+// DISH SHEET
+// ══════════════════════════════════════════════════════════════
+let currentDishKey = null;
+
+function openDishSheet(ci, ii) {
+  const item = MENU[ci].items[ii];
+  currentDishKey = `${ci}_${ii}`;
+  document.getElementById('dishSheetName').textContent = item.name;
+  const descEl = document.getElementById('dishSheetDesc');
+  descEl.textContent = item.desc || '';
+  descEl.style.display = item.desc ? '' : 'none';
+  document.getElementById('dishSheetPrice').textContent = eur(item.price);
+  updateDishQtyDisplay();
+  document.getElementById('dishOverlay').classList.add('open');
+  document.getElementById('dishSheet').classList.add('open');
+}
+
+function closeDishSheet() {
+  document.getElementById('dishOverlay').classList.remove('open');
+  document.getElementById('dishSheet').classList.remove('open');
+  currentDishKey = null;
+}
+
+function updateDishQtyDisplay() {
+  document.getElementById('dishSheetQtyNum').textContent =
+    currentDishKey && cart[currentDishKey] ? cart[currentDishKey].qty : 0;
+}
+
+document.getElementById('dishOverlay').addEventListener('click', closeDishSheet);
+document.getElementById('dishSheetClose').addEventListener('click', closeDishSheet);
+
+document.getElementById('dishSheetMinus').addEventListener('click', () => {
+  if (!currentDishKey) return;
+  changeQty(currentDishKey, -1);
+  updateDishQtyDisplay();
+});
+
+document.getElementById('dishSheetPlus').addEventListener('click', () => {
+  if (!currentDishKey) return;
+  changeQty(currentDishKey, 1);
+  updateDishQtyDisplay();
+});
 </script>
 </body>
 </html>
